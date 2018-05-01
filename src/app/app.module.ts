@@ -14,6 +14,10 @@ import { FavoritesPage } from '../pages/favorites/favorites';
 import { AgmCoreModule } from '@agm/core';
 import { AuthProvider } from '../providers/auth/auth';
 
+import { env } from '../environment';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { LoginPage } from '../pages/login/login';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -21,13 +25,15 @@ import { AuthProvider } from '../providers/auth/auth';
     MapPage,
     SettingsPage,
     FavoritesPage,
+    LoginPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyDb5qwl2x7VCs7K6QCfaLGlRuZTq1ImYkY'
-    })
+      apiKey: env.googleMapsAPIKey
+    }),
+    HttpClientModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -36,12 +42,14 @@ import { AuthProvider } from '../providers/auth/auth';
     MapPage,
     SettingsPage,
     FavoritesPage,
+    LoginPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider
+    AuthProvider,
+    HttpClientModule,
   ]
 })
 export class AppModule {}
