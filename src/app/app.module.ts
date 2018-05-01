@@ -11,6 +11,9 @@ import { MapPage } from '../pages/map/map';
 import { SettingsPage } from '../pages/settings/settings';
 import { FavoritesPage } from '../pages/favorites/favorites';
 
+import { AgmCoreModule } from '@agm/core';
+import { AuthProvider } from '../providers/auth/auth';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -21,7 +24,10 @@ import { FavoritesPage } from '../pages/favorites/favorites';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyDb5qwl2x7VCs7K6QCfaLGlRuZTq1ImYkY'
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -34,7 +40,8 @@ import { FavoritesPage } from '../pages/favorites/favorites';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthProvider
   ]
 })
 export class AppModule {}

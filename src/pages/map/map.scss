@@ -1,3 +1,9 @@
 page-map {
+    display: flex;
+    flex-direction: column;
 
+    agm-map {
+        flex-grow: 1;
+        height: 100%;
+    }
 }
