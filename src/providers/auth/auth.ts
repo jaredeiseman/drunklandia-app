@@ -2,8 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, ViewChild } from '@angular/core';
 import { env } from '../../environment';
 import { NavController, Nav } from 'ionic-angular';
-import { TabsPage } from '../../pages/tabs/tabs';
-import { LoginPage } from '../../pages/login/login';
 
 /*
   Generated class for the AuthProvider provider.
@@ -17,6 +15,8 @@ export class AuthProvider {
   @ViewChild(Nav) nav: NavController;
 
   baseURI: string = env.apiEndpoint;
+
+  favorites;
 
 
   constructor(public http: HttpClient) {}
@@ -42,6 +42,22 @@ export class AuthProvider {
 
   public isAuthenticated(): boolean {
     return !!localStorage.getItem('token')
+  }
+
+  public getToken(): string {
+    return localStorage.getItem('token')
+  }
+
+  public getMyFavorites(): void {
+    this.http.get(`${this.baseURI}my_favorites/`).toPromise().then(res => {
+      this.favorites = JSON.parse(res as string);
+    });
+  }
+
+  public updateMyFavorites(newFavorites): void {
+    this.http.patch(`${this.baseURI}my_favorites/`, { favorites: newFavorites }).toPromise().then(res => {
+      this.favorites = res;
+    });
   }
 
 }

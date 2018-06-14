@@ -7,12 +7,44 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>bar-detail</ion-title>
+    <ion-title>{{restaurant?.name}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <ion-card>
+    <ion-card-header id="main-heading">
+      {{restaurant?.name}}
+      <div *ngIf="authSvc.favorites && restaurant" (click)="toggleFavorite()">
+        <ion-icon name="heart" *ngIf="authSvc.favorites.includes(restaurant?.id)"></ion-icon>
+        <ion-icon name="heart-outline" *ngIf="!authSvc.favorites.includes(restaurant?.id)"></ion-icon>
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      {{restaurant?.street_one}}
+      <div *ngIf="restaurant?.street_two != null">{{restaurant?.street_two}}</div>
+      {{restaurant?.city}}, {{restaurant?.state}} {{restaurant?.zip_code}}
+      <div id="phone-now">
+        <span>{{restaurant?.phone | phoneNumber}}</span>
+        <!-- TODO: Add happening now section and style accordingly -->
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- TODO: Hookup the buttons -->
+  <button ion-button block color="dark" class="block-button">Hours</button>
+  <button ion-button block color="dark" class="block-button">Deals</button>
+
+  <ion-card>
+    <ion-card-header>Amenities</ion-card-header>
+    <ion-card-content>
+      <div *ngFor="let amenity of amenities">
+        <!-- TODO: FIX THIS -->
+        <amenity-icon [type]="amenity.amenity_id.amenity.toLowerCase()"></amenity-icon>
+      </div>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

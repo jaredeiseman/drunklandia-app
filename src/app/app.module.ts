@@ -15,8 +15,15 @@ import { AgmCoreModule } from '@agm/core';
 import { AuthProvider } from '../providers/auth/auth';
 
 import { env } from '../environment';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoginPage } from '../pages/login/login';
+import { RestaurantProvider } from '../providers/restaurant/restaurant';
+import { ListViewPage } from '../pages/list-view/list-view';
+import { BarDetailPage } from '../pages/bar-detail/bar-detail';
+import { PipesModule } from '../pipes/pipes.module';
+import { PhoneNumberPipe } from '../pipes/phone-number/phone-number';
+import { AmenityIconComponent } from '../components/amenity-icon/amenity-icon';
+import { TokenInterceptor } from '../providers/auth/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -25,7 +32,10 @@ import { LoginPage } from '../pages/login/login';
     MapPage,
     SettingsPage,
     FavoritesPage,
-    LoginPage
+    LoginPage,
+    ListViewPage,
+    BarDetailPage,
+    AmenityIconComponent
   ],
   imports: [
     BrowserModule,
@@ -34,6 +44,7 @@ import { LoginPage } from '../pages/login/login';
       apiKey: env.googleMapsAPIKey
     }),
     HttpClientModule,
+    PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -42,7 +53,9 @@ import { LoginPage } from '../pages/login/login';
     MapPage,
     SettingsPage,
     FavoritesPage,
-    LoginPage
+    LoginPage,
+    ListViewPage,
+    BarDetailPage
   ],
   providers: [
     StatusBar,
@@ -50,6 +63,13 @@ import { LoginPage } from '../pages/login/login';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     HttpClientModule,
+    RestaurantProvider,
+    PhoneNumberPipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
   ]
 })
 export class AppModule {}
